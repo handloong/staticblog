@@ -1,8 +1,9 @@
 ---
 title: 关于
-description: 关于本站及其作者的一切。
+description: 欢迎来到邓振振的博客空间
 date: 2026-01-26
 lastmod: 2026-01-26
+slug: "about"
 menu:
     main: 
         weight: -90
@@ -10,36 +11,29 @@ menu:
             icon: user
 ---
 
-## 这是给谁看的？
+## 技术专长 💻
+- **后端开发专家**：专注于C#/.NET Core技术栈，拥有丰富的服务端开发经验 🚀
+- **微软技术生态**：深度使用.NET生态系统，熟悉现代化Web应用开发 🧡
+- **工业自动化**：具备SECS/GEM通信协议开发经验，擅长制造执行系统(MES)集成 ⚙️
 
-这是一个示例**关于**页面。你可以用它来介绍你自己、你的博客或你的项目。
+## 专业技能 🔧
+- **编程语言**: C#, .NET Core, SQL 📝
+- **工业协议**: SECS/GEM协议类库开发，半导体制造设备通讯 📡
+- **物料管理**: Fuji/NPM贴片机防错料系统开发与实施 🏭
+- **系统集成**: MES系统与生产设备的无缝对接 🔗
 
-## 关于作者
+## 职业理念 💡
+致力于将前沿的软件工程技术与传统制造业相结合，提升生产效率与产品质量 ✨。相信技术的力量可以让制造过程更加智能、高效、可靠。
 
-你好！我是一个热衷于博客和开源的爱好者。我喜欢探索新技术并向社区分享我的经验。
-
-### 我的旅程
-
-我在 10 多年前开始了我的 Web 开发之旅。自那以后，我参与了许多项目，从个人博客到大规模企业应用。
-
-### 技能
-
-- **前端**: HTML, CSS, JavaScript, React, Vue
-- **后端**: Node.js, Python, Go
-- **工具**: Git, Docker, Hugo, Neovim
-
-## 联系我
-
-如果你有任何问题或只是想打个招呼，请随时联系我！
-
-- **电子邮件**: [hello@example.com](mailto:hello@example.com)
-- **Twitter**: [@example](https://twitter.com/example)
-- **GitHub**: [example](https://github.com/example)
+## 愿景 🌟
+持续深耕工业互联网领域，用代码构建连接物理世界与数字世界的桥梁 🌉。
 
 ---
 
-> "Logic will get you from A to B. Imagination will take you everywhere."  
-> — *Albert Einstein*
+## 联系我 📬
 
----
-*此页面由 AI 生成。*
+📧 **邮箱**: [fastdev@foxmail.com](mailto:fastdev@foxmail.com)
+
+💻 **GitHub**: [https://github.com/handloong](https://github.com/handloong)
+
+🤝 如有技术交流、项目合作，欢迎随时联系！ 🎯
