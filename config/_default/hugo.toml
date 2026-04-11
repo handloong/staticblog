@@ -19,4 +19,4 @@ hasCJKLanguage         = false
     page = "/:slug/"
 
 [services.disqus]
-    shortname = "hugo-theme-stack"
+    shortname = "doer-ltd"
