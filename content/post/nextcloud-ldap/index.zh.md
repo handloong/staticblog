@@ -2,6 +2,7 @@
 title: NextCloud集成LDAP
 date: 2026-04-13
 description: 如何集成LDAP认证登录。
+slug: nextcloud-ladp
 toc: true
 categories:
     - IT
