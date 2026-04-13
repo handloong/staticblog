@@ -59,7 +59,7 @@ uid=johndoe,ou=users,dc=example,dc=com
 
 ### 服务器
 
-![1](https://cdn.jsdelivr.net/gh/handloong/image-bed@main/2026/hugo/2026/04/1.jpg)
+![服务器](https://cdn.jsdelivr.net/gh/handloong/image-bed@main/hugo/2026/04/13/1afbf6dd2c531f46b794a9427a0746c1-1.webp)
 
 
 
@@ -74,13 +74,13 @@ uid=johndoe,ou=users,dc=example,dc=com
 
 ### 用户
 
-![2](https://cdn.jsdelivr.net/gh/handloong/image-bed@main/2026/hugo/2026/04/2.jpg)
+![用户](https://cdn.jsdelivr.net/gh/handloong/image-bed@main/hugo/2026/04/13/eecbd4cded539c588467171f45790bc0-2.webp)
 
 可以直接写LDAP查询: `(&(|(objectclass=user)))`
 
 ### 登录属性
 
-![3](https://cdn.jsdelivr.net/gh/handloong/image-bed@main/2026/hugo/2026/04/3.jpg)
+![登录属性](https://cdn.jsdelivr.net/gh/handloong/image-bed@main/hugo/2026/04/13/06df75f84ea4517cb80aee8182b1da88-3.webp)
 
 这里主要控制登录的时候从指定的表达式查询,其中`%uid`是NextCloud登录页面输入的用户名的占位符。
 
@@ -90,7 +90,7 @@ uid=johndoe,ou=users,dc=example,dc=com
 
 ### 群组
 
-![4](https://cdn.jsdelivr.net/gh/handloong/image-bed@main/2026/hugo/2026/04/4.jpg)
+![群组](https://cdn.jsdelivr.net/gh/handloong/image-bed@main/hugo/2026/04/13/dc9446568674a5eebb0aebd827be3d0a-4.webp)
 
 
 
@@ -98,7 +98,7 @@ uid=johndoe,ou=users,dc=example,dc=com
 
 ### 高级
 
-![5](https://cdn.jsdelivr.net/gh/handloong/image-bed@main/2026/hugo/2026/04/5.jpg)
+![高级](https://cdn.jsdelivr.net/gh/handloong/image-bed@main/hugo/2026/04/13/ac2e83a8b302de3d004a76c59c5fcbe3-5.webp)
 
 这里主要设置NextCloud用户相关的一些设定。比如用户名，账号，邮箱，上图中
 
