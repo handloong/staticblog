@@ -18,5 +18,6 @@ hasCJKLanguage         = false
     post = "/p/:slug/"
     page = "/:slug/"
     chinese = "/chinese/:slug/"
+    IT= "/it/:slug/"
 [services.disqus]
     shortname = "doer-ltd"
