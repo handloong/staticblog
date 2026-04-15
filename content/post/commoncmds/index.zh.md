@@ -33,6 +33,14 @@ find /home/logs/config -type f -exec grep 'doer.ltd' {} +
 find /home/logs/config -type f -name "*.log" -exec grep -H 'doer.ltd' {} +
 ```
 
+### 其他
+pm2启动程序
+```shell
+ pm2 start  "dotnet /app/AnyUploader/AnyUploader.WebApi.dll"  --name AnyUploader.WebApi
+ pm2 save
+```
+
+
 ## windows
 
 ### 网络
