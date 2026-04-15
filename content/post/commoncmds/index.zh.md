@@ -33,6 +33,14 @@ find /home/logs/config -type f -exec grep 'doer.ltd' {} +
 find /home/logs/config -type f -name "*.log" -exec grep -H 'doer.ltd' {} +
 ```
 
+## windows
+
+### 网络
+
+查看指定已连接过的wifi密码
+``` shell
+netsh wlan show profile name="4G-MIFI-1DAF" key=clear
+```
 
 
 ## Tools
