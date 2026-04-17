@@ -1,6 +1,6 @@
 ---
 title: 关于
-description: 欢迎来到邓振振的博客空间
+description: 欢迎来到行动派的空间
 date: 2026-01-26
 lastmod: 2026-01-26
 slug: "about"
