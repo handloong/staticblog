@@ -36,7 +36,7 @@ find /home/logs/config -type f -name "*.log" -exec grep -H 'doer.ltd' {} +
 ### 其他
 pm2启动程序
 ```shell
- pm2 start  "dotnet /app/AnyUploader/AnyUploader.WebApi.dll"  --name AnyUploader.WebApi
+ pm2 start  "dotnet /app/MyBlog/MyBlog.WebApi.dll"  --name MyBlog.WebApi
  pm2 save
 ```
 
@@ -47,7 +47,7 @@ pm2启动程序
 
 查看指定已连接过的wifi密码
 ``` shell
-netsh wlan show profile name="4G-MIFI-1DAF" key=clear
+netsh wlan show profile name="MyBlog-MIFI" key=clear
 ```
 
 
@@ -57,7 +57,7 @@ netsh wlan show profile name="4G-MIFI-1DAF" key=clear
 
 Wireshark过滤器
 ```
-(tcp.port == 34001 ||tcp.port == 34002||tcp.port == 34003) && tcp.len>50
+(tcp.port == 4051 ||tcp.port == 4045||tcp.port == 4055) && tcp.len>50
 ```
 ### 文本
 `notepad--`中正则搜索既包含A又包含B又包含C又包含D的
