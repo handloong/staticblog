@@ -50,7 +50,7 @@ int result = calc.Sum(1, 2);
 
 首先，我们需要定义一个标准化的接口，用于约束脚本的执行行为：
 ``` csharp
-  public interface IScriptProcessor : ISingleton
+  public interface IScriptProcessor
   {
       Task Execute(ScriptContext scriptContext);
   }
