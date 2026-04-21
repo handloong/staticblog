@@ -3,7 +3,7 @@ title: 基于 C# 实现动态脚本引擎方案
 date: 2026-04-03
 description: 深入解析 .NET 8+ 环境下利用 CS-Script 实现动态脚本加载与执行的最佳实践
 toc: true
-slug: csharpscript
+slug: csharpscript-dynamic-execution
 categories:
     - Dev
 tags:
