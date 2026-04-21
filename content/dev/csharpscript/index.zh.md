@@ -1,7 +1,7 @@
 ---
-title: 使用C#实现脚本功能
-date:  2026-04-03
-description: 介绍一种.Net 8+实现脚本功能的一种方式
+title: 基于 C# 实现动态脚本引擎方案
+date: 2026-04-03
+description: 深入解析 .NET 8+ 环境下利用 CS-Script 实现动态脚本加载与执行的最佳实践
 toc: true
 slug: csharpscript
 categories:
@@ -9,26 +9,29 @@ categories:
 tags:
     - csharp
     - script
+    - dynamic-execution
 ---
 
-## CS-Script介绍
+## 1. CS-Script 技术概览
 
-CS-Script 是一个基于 CLR 的脚本系统，采用符合 ECMA 标准的 C# 作为编程语言。最成熟的 C# 脚本解决方案之一。
+CS-Script 是目前 .NET 生态中最成熟、基于公共语言运行时 (CLR) 的动态脚本解决方案。它允许开发者使用符合 ECMA 标准的 C# 语言编写脚本，并通过程序集加载机制在运行时动态编译和执行代码。
 
-直接复制安装,本篇文章目前最新的CS-Script为
+**依赖安装**
+本项目当前采用的 CS-Script 版本为 `4.14.4`：
 ``` xml
 <PackageReference Include="CS-Script" Version="4.14.4" />
 ```
-[cs-script github地址](https://github.com/oleg-shilo/cs-script)
+更多技术细节可查阅 [CS-Script GitHub 仓库](https://github.com/oleg-shilo/cs-script)。
 
-官方给了一个demo用法，如下显示:
+**核心用法示例**
+官方文档提供了典型的使用场景：通过接口泛型定义加载动态代码：
 ``` csharp
 public interface ICalc
 {
     int Sum(int a, int b);
 }
 
-// you can, but don't have to inherit your script class from ICalc
+// 脚本类继承自接口 (非强制，但推荐)
 ICalc calc = CSScript.Evaluator
                      .LoadCode<ICalc>(@"using System;
                                         public class Script
@@ -40,10 +43,12 @@ ICalc calc = CSScript.Evaluator
                                         }");
 int result = calc.Sum(1, 2);
 ```
-## 实战前言
 
-那么用法就很简单了，我们需要定义一个接口，然后传递一些参数就行了.
+## 2. 架构设计思路
 
+实现逻辑遵循 **“接口定义 -> 上下文注入 -> 动态编译”** 的模式。
+
+首先，我们需要定义一个标准化的接口，用于约束脚本的执行行为：
 ``` csharp
   public interface IScriptProcessor : ISingleton
   {
@@ -51,18 +56,19 @@ int result = calc.Sum(1, 2);
   }
 ```
 
-ScriptContext 这个对象就是我们需要的一些参数,一些对象,一般来说我们在开发的时候用的对象比较多,所以我们可以把要操作的对象
+**关于 `ScriptContext` 上下文对象**
+`ScriptContext` 是承载脚本执行所需参数与依赖的核心载体。考虑到脚本通常需要操作丰富的业务对象，我们将所有需注入的依赖对象封装于该上下文中。由于 `ScriptContext` 为引用类型，脚本代码可直接修改其内部属性，从而实现灵活的状态共享与数据更新。
 
-放在scriptContext里面,因为是引用类型所以修改起来也很方便
+## 3. 核心实现模块
 
-## 代码模板
-### 防止格式化工具格式化
+### 3.1 脚本模板构建 (Script Template)
 
-需要创建一个ScriptTemplateProcessor的cs文件,这个文件来当代码模板,编译的时候读取这个文件,记得设置为`复制到输出目录-始终复制`
+为了防止代码格式化器（Formatter）破坏脚本结构或影响编译，我们采用外部模板文件策略。需创建一个 `ScriptTemplateProcessor.cs` 文件作为编译时的代码骨架，并在项目配置中将其设置为 `复制到输出目录 - 始终复制`。
 
-<div style="background: #d4edda; border-left: 4px solid #28a745; color: #155724; padding: 12px 16px; border-radius: 4px; margin: 16px 0;">
-  <strong>✅ cs文件好处：</strong>不容易写错,格式化方便,有代码提示
-</div>
+> **✅ 采用 .cs 文件作为模板的优势**：
+> - 避免手动拼接字符串导致语法错误。
+> - 享受 IDE 的代码提示、语法高亮与智能重构功能。
+> - 便于维护与版本控制。
 
 ```csharp
 using Doer.Script;
@@ -75,7 +81,7 @@ using Doer.Script;
 //DOT_NOT_CHANGE_TEMPLATE//using HSMS4Net.Extensions;
 
 /// <summary>
-/// 脚本模板请勿修改!
+/// 脚本模板类，请勿修改核心逻辑结构！
 /// </summary>
 public class ScriptTemplateProcessor : IScriptProcessor
 {
@@ -85,13 +91,14 @@ public class ScriptTemplateProcessor : IScriptProcessor
 
     public async Task Execute(ScriptContext scriptContext)
     {
-        //初始化变量
+        // 1. 初始化上下文变量
         InitialVar(scriptContext);
 
-        //DO_NOT_CHANGE_OR_DEL_{51B89679-FEE6-4FDF-9222-22A290B1533A}
+        // DO_NOT_CHANGE_OR_DEL_{51B89679-FEE6-4FDF-9222-22A290B1533A}
+        // 此处为用户脚本插入点
         await Task.CompletedTask;
     }
-    
+  
 
     private void InitialVar(ScriptContext scriptContext)
     {
@@ -101,14 +108,14 @@ public class ScriptTemplateProcessor : IScriptProcessor
         }
         _context = scriptContext;
 
-      
-
+        // 依赖注入：Logger
         _logger = scriptContext.Logger;
         if (_logger == null)
         {
-            throw new Exception("scriptContext.Logger can be not null");
+            throw new Exception("scriptContext.Logger cannot be null");
         }
 
+        // 依赖注入：设备ID
         _equipmentId = scriptContext.EquipmentId;
         if (string.IsNullOrWhiteSpace(_equipmentId))
         {
@@ -118,11 +125,9 @@ public class ScriptTemplateProcessor : IScriptProcessor
 }
 ```
 
+### 3.2 脚本编译与缓存 (CachedScriptExecutor)
 
-
-### 缓存模版
-
-作用时每个相同的脚本只需要缓存(编译)一次
+为了提升系统性能，避免重复编译相同内容的脚本，我们引入了基于哈希值的编译缓存机制。
 
 ```csharp
 using CSScriptLib;
@@ -135,13 +140,18 @@ namespace Doer.Script
 {
     public class CachedScriptExecutor
     {
+        // 脚本注入标识符
         public static string InjectedStart = "//START_{D85A735E-5D6F-4B54-B199-300C888F549D}";
         public static string InjectedEnd = "//END_{943A6A08-0022-4BB7-98A0-1D5CEA10F952}";
         public static string ReplaceCode = "//DO_NOT_CHANGE_OR_DEL_{51B89679-FEE6-4FDF-9222-22A290B1533A}";
 
+        // 线程安全缓存字典
         private static readonly ConcurrentDictionary<string, IScriptProcessor> _scriptCache =
             new ConcurrentDictionary<string, IScriptProcessor>();
 
+        /// <summary>
+        /// 计算脚本内容的 SHA256 哈希值，用于缓存键
+        /// </summary>
         private static string ComputeHash(string input)
         {
             using (var sha256 = SHA256.Create())
@@ -157,11 +167,10 @@ namespace Doer.Script
         }
 
         /// <summary>
-        /// 编译脚本并缓存脚本
+        /// 异步编译脚本并尝试从缓存获取
         /// </summary>
-        /// <param name="userScriptCode"></param>
-        /// <param name="context"></param>
-        /// <returns></returns>
+        /// <param name="userScriptCode">用户提供的原始脚本代码</param>
+        /// <returns>编译结果 (是否成功, 异常信息)</returns>
         public static async Task<(bool, Exception?)> CompileScriptAsync(string userScriptCode)
         {
             string scriptHash = ComputeHash(userScriptCode);
@@ -178,6 +187,7 @@ namespace Doer.Script
                     }
                     catch (Exception)
                     {
+                        // 编译失败时移除缓存，防止脏数据
                         _scriptCache.TryRemove(hash, out _);
                         throw;
                     }
@@ -194,11 +204,8 @@ namespace Doer.Script
         }
 
         /// <summary>
-        /// 执行并缓存脚本
+        /// 执行脚本：优先从缓存加载，无缓存则编译后执行
         /// </summary>
-        /// <param name="userScriptCode"></param>
-        /// <param name="context"></param>
-        /// <returns></returns>
         public static async Task ExecuteScriptAsync(string userScriptCode, ScriptContext context)
         {
             string scriptHash = ComputeHash(userScriptCode);
@@ -206,7 +213,7 @@ namespace Doer.Script
             IScriptProcessor processor = _scriptCache.GetOrAdd(scriptHash, hash =>
             {
 #if DEBUG
-                Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} 脚本未缓存，开始编译...");
+                Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} 脚本未命中缓存，开始编译...");
 #endif
                 var startTime = DateTime.Now;
                 try
@@ -231,23 +238,32 @@ namespace Doer.Script
             await processor.Execute(context);
         }
 
+        /// <summary>
+        /// 错误诊断：将编译器抛出的内部行号映射回用户脚本的实际行号
+        /// </summary>
         private static Exception? MapCompilerErrorToUserCode(Exception ex, string script)
         {
             try
             {
                 var startIdx = script.IndexOf(InjectedStart);
                 if (startIdx < 0) return null;
+              
+                // 计算用户代码起始行
                 var pre = script.Substring(0, startIdx);
                 var userStartLine = CountLines(pre) + 1;
 
+                // 正则提取编译器报错坐标 (行，列)
                 var m = Regex.Match(ex.Message, @"\((\d+),(\d+)\)");
                 if (!m.Success) return null;
+              
                 var line = int.Parse(m.Groups[1].Value);
                 var col = int.Parse(m.Groups[2].Value);
 
                 if (line >= userStartLine)
                 {
+                    // 修正行号
                     var userLine = line - userStartLine;
+                    // 替换错误信息中的虚拟脚本路径为真实路径
                     var msg = Regex.Replace(ex.Message, @"<script>\(\d+,\d+\)", $"UserScript({userLine},{col})");
                     return new Exception(msg, ex);
                 }
@@ -272,9 +288,10 @@ namespace Doer.Script
 }
 ```
 
+### 3.3 动态代码构建 (ScriptBuilder)
 
+该模块负责将用户提供的纯脚本代码与模板文件进行组装。通过计算文件修改时间实现本地缓存，减少文件 IO 开销。
 
-### 替换模板
 ```csharp
 using System.Text;
 
@@ -285,35 +302,40 @@ namespace Doer.Script
         public static string InjectedStart = "//START_{D85A735E-5D6F-4B54-B199-300C888F549D}";
         public static string InjectedEnd = "//END_{943A6A08-0022-4BB7-98A0-1D5CEA10F952}";
         public static string ReplaceCode = "//DO_NOT_CHANGE_OR_DEL_{51B89679-FEE6-4FDF-9222-22A290B1533A}";
-
+      
+        // 格式化保护标记
         public static string FuckCodeFormat = "//DOT_NOT_CHANGE_TEMPLATE//";
 
+        // 文件缓存相关字段
         public static DateTime _fileLastWrite = DateTime.Now.AddMinutes(-19960521);
         public static string _scriptFileTemp;
 
+        /// <summary>
+        /// 组装完整脚本：读取模板 + 插入用户代码 + 移除格式保护符
+        /// </summary>
         public static string Build(string code)
         {
             var file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"ScriptTemplateProcessor.cs");
             if (!File.Exists(file))
             {
-                throw new FileNotFoundException(file);
+                throw new FileNotFoundException($"Template file not found: {file}");
             }
 
-            //缓存策略,不用每次都读取文件模板
+            // 智能缓存：仅在模板文件变更时重新读取
             var lastWriteTime = File.GetLastWriteTime(file);
 
             if (lastWriteTime != _fileLastWrite)
             {
                 _fileLastWrite = lastWriteTime;
-
-                var temp = File.ReadAllText(file, Encoding.UTF8);
-                _scriptFileTemp = temp;
+                _scriptFileTemp = File.ReadAllText(file, Encoding.UTF8);
             }
 
             if (string.IsNullOrWhiteSpace(_scriptFileTemp))
             {
-                throw new Exception($"Read _scriptTemp error,please check Doer ScriptBuilder");
+                throw new Exception($"Failed to load script template. Please check Doer ScriptBuilder configuration.");
             }
+
+            // 组装逻辑：模板 - 占位符 + 用户代码包裹层
             var injected = $"{InjectedStart}\n{code}\n{InjectedEnd}";
             return _scriptFileTemp.Replace(ReplaceCode, injected).Replace(FuckCodeFormat, "");
         }
@@ -321,13 +343,18 @@ namespace Doer.Script
 }
 ```
 
+## 4. 关键技术详解
 
+### 4.1 错误行号定位机制 (Error Line Mapping)
 
-## 代码编译
+在动态编译中，编译器报错的行号通常基于**完整文件**（模板 + 用户代码）。为了让开发者能准确定位错误，我们需要在 `CachedScriptExecutor` 中实现行号映射算法：
 
-### 定位代码错误行号
-在`CachedScriptExecutor`类中如下代码负责定位代码错误行号,其原理是利用CSScriptLib报错的信息进行正则提取减去代码模板开始行的位置,得到用户真正写的脚本错误的行号
+1.  **定位起始点**：查找用户代码插入标记 (`InjectedStart`) 的位置。
+2.  **计算偏移量**：统计插入标记前的行数，得到用户代码的起始行号。
+3.  **正则解析**：提取编译器报错信息中的 `(行, 列)` 坐标。
+4.  **修正与替换**：若报错行号大于起始行号，则减去偏移量得到用户行号，并替换错误消息中的源文件引用。
 
+核心实现代码如下：
 ```csharp
  private static Exception? MapCompilerErrorToUserCode(Exception ex, string script)
  {
@@ -368,9 +395,9 @@ namespace Doer.Script
  }
 ```
 
+### 4.2 最终调用流程
 
-
-### 最终使用
+整合 `ScriptBuilder` 和 `CachedScriptExecutor` 的完整调用示例：
 
 ```csharp
        private async Task ExecuteScripts(string scriptCode, ScriptContext scriptContext)
@@ -379,16 +406,16 @@ namespace Doer.Script
            {
                try
                {
+                   // 1. 构建完整脚本文件内容
                    var script = ScriptBuilder.Build(scriptCode);
+                 
+                   // 2. 执行编译并运行（含缓存优化）
                    await CachedScriptExecutor.ExecuteScriptAsync(script, scriptContext);
                }
                catch (Exception ex)
                {
-                   _logger.Error(ex, $"执行脚本异常");
+                   _logger.Error(ex, $"执行脚本异常，脚本内容：{scriptCode}");
                }
            }
        }
 ```
-
-
-
