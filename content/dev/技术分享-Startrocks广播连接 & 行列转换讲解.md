@@ -9,7 +9,6 @@ categories:
     - 技术分享
 tags:
     - StarRocks
-    - 技术分享
 ---
 
 # StarRocks 技术分析：广播连接 & 行列转换

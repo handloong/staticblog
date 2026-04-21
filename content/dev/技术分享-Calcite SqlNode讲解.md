@@ -9,7 +9,6 @@ categories:
     - 技术分享
 tags:
     - Calcite
-    - 技术分享
 ---
 
 Apache Calcite 是一个**开源的框架**，用于**构建数据管理系统**。它的核心定位是：**为各种数据源提供统一的 SQL 接口、优化和执行引擎，而不直接存储数据** 。现在讨论框架中 `SqlNode` 类的实现。`SqlNode` 是 Calcite 的核心类之一，表示 SQL 抽象语法树（AST）中的节点。SQL 的每个组成部分（如 SELECT、WHERE 子句、函数调用等）都可以表示为一个 `SqlNode` 或其子类的实例。以下是代码中的关键点和功能解释：
