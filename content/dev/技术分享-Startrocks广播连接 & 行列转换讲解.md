@@ -1,7 +1,7 @@
 ---
 title: StarRocks 技术分析：广播连接 & 行列转换
 date: 2026-04-21
-description: 本文章由刘行通投稿
+description: 本文由刘行通编写
 toc: true
 slug: starrocks-broadcast-join-column-row-conversion
 categories:
