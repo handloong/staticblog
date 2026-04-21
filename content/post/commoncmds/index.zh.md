@@ -39,6 +39,11 @@ pm2启动程序
  pm2 start  "dotnet /app/MyBlog/MyBlog.WebApi.dll"  --name MyBlog.WebApi
  pm2 save
 ```
+更新系统
+```
+unzip -o /tmp/1.8.0.3.webapi.zip -d /apps/DoerPPP
+pm2 restart 0
+```
 
 
 ## windows
