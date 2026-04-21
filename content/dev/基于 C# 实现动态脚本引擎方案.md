@@ -6,6 +6,7 @@ toc: true
 slug: csharpscript-dynamic-execution
 categories:
     - Dev
+    - 技术分享
 tags:
     - csharp
     - script

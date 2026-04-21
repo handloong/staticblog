@@ -6,6 +6,7 @@ toc: true
 slug: calcite-sqlnode
 categories:
     - Dev
+    - 技术分享
 tags:
     - Calcite
     - 技术分享

@@ -6,6 +6,7 @@ toc: true
 slug: starrocks-broadcast-join-column-row-conversion
 categories:
     - Dev
+    - 技术分享
 tags:
     - StarRocks
     - 技术分享
