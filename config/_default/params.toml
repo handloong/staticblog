@@ -1,4 +1,4 @@
-mainSections   = ["post","chinese","dev"]
+mainSections   = ["post","chinese","dev","it"]
 rssFullContent = true
 favicon        = "img/avatar.png"
 

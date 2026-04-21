@@ -2,6 +2,7 @@
 title: 常用Shell命令
 date: 2026-04-14
 description: 记录本人常用的linux/windows/tools命令
+slug: common-shell
 toc: true
 categories:
     - IT
