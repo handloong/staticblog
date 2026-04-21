@@ -3,6 +3,7 @@ title: 使用C#实现脚本功能
 date:  2026-04-03
 description: 介绍一种.Net 8+实现脚本功能的一种方式
 toc: true
+slug: csharpscript
 categories:
     - Dev
 tags:
