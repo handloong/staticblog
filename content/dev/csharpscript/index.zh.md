@@ -400,22 +400,22 @@ namespace Doer.Script
 整合 `ScriptBuilder` 和 `CachedScriptExecutor` 的完整调用示例：
 
 ```csharp
-       private async Task ExecuteScripts(string scriptCode, ScriptContext scriptContext)
-       {
-           if (!string.IsNullOrWhiteSpace(scriptCode))
-           {
-               try
-               {
-                   // 1. 构建完整脚本文件内容
-                   var script = ScriptBuilder.Build(scriptCode);
-                 
-                   // 2. 执行编译并运行（含缓存优化）
-                   await CachedScriptExecutor.ExecuteScriptAsync(script, scriptContext);
-               }
-               catch (Exception ex)
-               {
-                   _logger.Error(ex, $"执行脚本异常，脚本内容：{scriptCode}");
-               }
-           }
-       }
+private async Task ExecuteScripts(string scriptCode, ScriptContext scriptContext)
+{
+    if (!string.IsNullOrWhiteSpace(scriptCode))
+    {
+        try
+        {
+            // 1. 构建完整脚本文件内容
+            var script = ScriptBuilder.Build(scriptCode);
+            
+            // 2. 执行编译并运行（含缓存优化）
+            await CachedScriptExecutor.ExecuteScriptAsync(script, scriptContext);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, $"执行脚本异常，脚本内容：{scriptCode}");
+        }
+    }
+}
 ```

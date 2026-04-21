@@ -1,6 +1,6 @@
 ---
 title: 数学公式
-date: 2026-01-24
+date: 2025-01-24
 description: 在 Stack 主题中启用和使用 KaTeX 的指南
 math: true
 categories:
