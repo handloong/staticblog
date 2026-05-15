@@ -1,7 +1,7 @@
 ---
 title: Calcite SqlNode讲解
 date: 2026-04-21
-description: 本文由何进进编写
+description: 
 toc: true
 slug: calcite-sqlnode
 categories:
