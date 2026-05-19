@@ -105,9 +105,9 @@ Claude Code 通过 `~/.claude/` 目录下的配置文件进行设置。
 | `primaryApiKey` | 本地服务通常不校验，设为任意非空字符串即可 |
 
 
-## 修改C:\Users\{用户名}\.claude.json
+### 3. 修改.claude.json
 
-在最后一行添加 `"hasCompletedOnboarding": true`
+修改`C:\Users\用户\.claude.json`文件在最后一行添加 `"hasCompletedOnboarding": true`
 ```json
 {
     //其他
