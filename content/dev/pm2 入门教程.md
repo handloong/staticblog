@@ -1,4 +1,5 @@
 ---
+slug: "pm2-ru-men-jiao-cheng"
 title: "PM2 入门教程"
 date: 2026-05-19
 draft: false
