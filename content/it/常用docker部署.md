@@ -49,3 +49,16 @@ docker run --name nacos-standalone-derby \
     -v /usr/local/nacos/backup:/home/nacos/backup \
     -d nacos/nacos-server:v2.5.2
 ```
+
+### zookeeper
+``` shell
+# 可用的
+docker run -d \
+  --name zookeeper \
+  --restart=always \
+  --security-opt seccomp=unconfined \
+  -p 2181:2181 \
+  -v /data/zookeeper-conf:/conf \
+  -v /data/zookeeper-data:/data \
+  zookeeper:3.9.5
+```
