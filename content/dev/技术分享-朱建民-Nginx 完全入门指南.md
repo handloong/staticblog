@@ -94,7 +94,8 @@ sudo systemctl start nginx
 # 设置开机自启
 sudo systemctl enable nginx
 CentOS / RHEL / Fedora
-bash
+
+```bash
 # 安装 EPEL 仓库（CentOS 7）
 sudo yum install epel-release -y
 
@@ -104,27 +105,27 @@ sudo yum install nginx -y   # 或 dnf install nginx -y
 # 启动服务
 sudo systemctl start nginx
 sudo systemctl enable nginx
-
-# 验证安装
-在浏览器输入服务器 IP，看到 "Welcome to nginx!" 页面即表示安装成功。
 ```
+
+验证安装：在浏览器输入服务器 IP，看到 "Welcome to nginx!" 页面即表示安装成功。
 
 ### 🖥️ 服务管理命令（systemctl）
-```
-现代 Linux 系统使用 systemctl 管理 Nginx 服务：
 
-命令	                        说明	            
-sudo systemctl start nginx	     启动 Nginx	   
-sudo systemctl stop nginx	     停止 Nginx	   
-sudo systemctl restart nginx     重启 Nginx（先停后启） 
-sudo systemctl reload nginx	     ✅ 重新加载配置（推荐）
-sudo systemctl status nginx	     查看运行状态	
-sudo systemctl enable nginx	     设置开机自启	
-sudo systemctl disable nginx     取消开机自启	
-sudo systemctl is-active nginx   检查是否运行中	
-sudo systemctl is-enabled nginx  检查是否开机自启	
-💡 推荐做法：修改配置后优先使用 reload，而非 restart，避免服务中断。
+```bash
+# 现代 Linux 系统使用 systemctl 管理 Nginx服务：
+
+sudo systemctl start nginx      # 启动 Nginx
+sudo systemctl stop nginx      # 停止 Nginx
+sudo systemctl restart nginx   # 重启 Nginx（先停后启）
+sudo systemctl reload nginx    # 重新加载配置（推荐）
+sudo systemctl status nginx    # 查看运行状态
+sudo systemctl enable nginx    # 设置开机自启
+sudo systemctl disable nginx   # 取消开机自启
+sudo systemctl is-active nginx # 检查是否运行中
+sudo systemctl is-enabled nginx # 检查是否开机自启
 ```
+
+> 💡 推荐做法：修改配置后优先使用 `reload`，而非 `restart`，避免服务中断。
 ### ⚡ Nginx 程序控制命令
 通过 nginx 可执行文件发送更细粒度的信号：
 
@@ -155,9 +156,10 @@ nginx -V
 ```
 
 ### 📝 常用配置场景示例
-```
-场景1：托管静态网站
-nginx
+
+#### 场景1：托管静态网站
+
+```nginx
 server {
     listen 80;
     server_name www.mywebsite.com;
@@ -171,8 +173,11 @@ server {
         internal;
     }
 }
-场景2：反向代理（前后端分离）
-nginx
+```
+
+#### 场景2：反向代理（前后端分离）
+
+```nginx
 server {
     listen 80;
     server_name api.myapp.com;
@@ -180,13 +185,13 @@ server {
     # 所有 /api/ 请求转发到后端服务
     location /api/ {
         proxy_pass http://localhost:3000/;
-        
+
         # 传递真实客户端信息
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-        
+
         # 超时设置
         proxy_connect_timeout 60s;
         proxy_send_timeout 60s;
@@ -200,15 +205,18 @@ server {
         add_header Cache-Control "public, immutable";
     }
 }
-场景3：负载均衡
-nginx
+```
+
+#### 场景3：负载均衡
+
+```nginx
 # 定义后端服务器组
 upstream backend_servers {
     # 负载均衡策略：默认轮询
     server 192.168.1.10:8080 weight=3;   # 权重3，处理更多请求
     server 192.168.1.11:8080;             # 权重默认为1
     server 192.168.1.12:8080 backup;      # 备用服务器，仅在其他都故障时启用
-    
+
     # 可选策略（取消注释使用）：
     # least_conn;      # 最少连接
     # ip_hash;         # 基于客户端 IP 的哈希，保持会话一致性
@@ -225,8 +233,11 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 }
-场景4：配置 HTTPS（SSL/TLS）
-nginx
+```
+
+#### 场景4：配置 HTTPS（SSL/TLS）
+
+```nginx
 server {
     listen 443 ssl http2;
     server_name secure.example.com;
@@ -234,7 +245,7 @@ server {
     # SSL 证书配置
     ssl_certificate /etc/nginx/ssl/example.com.crt;
     ssl_certificate_key /etc/nginx/ssl/example.com.key;
-    
+
     # SSL 安全优化
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers HIGH:!aNULL:!MD5;
@@ -255,13 +266,17 @@ server {
 ```
 
 ### 📋 日志管理与问题排查
-```
-日志位置
-bash
+
+#### 日志位置
+
+```bash
 /var/log/nginx/access.log    # 访问日志（所有请求记录）
 /var/log/nginx/error.log      # 错误日志（调试问题首选）
-自定义日志格式
-nginx
+```
+
+#### 自定义日志格式
+
+```nginx
 http {
     # 定义日志格式
     log_format main '$remote_addr - $remote_user [$time_local] "$request" '
@@ -272,8 +287,11 @@ http {
     access_log /var/log/nginx/access.log main;
     error_log /var/log/nginx/error.log warn;
 }
-实时查看日志
-bash
+```
+
+#### 实时查看日志
+
+```bash
 # 实时查看访问日志
 sudo tail -f /var/log/nginx/access.log
 
@@ -288,7 +306,6 @@ sudo tail -n 100 /var/log/nginx/error.log
 
 # 统计访问最多的 IP
 sudo awk '{print $1}' /var/log/nginx/access.log | sort | uniq -c | sort -nr | head -10
-
 ```
 
 ### 📝 日常运维速查卡
@@ -328,4 +345,4 @@ ps aux | grep nginx
 
 # 📌 统计日志中 500 错误的数量
 sudo grep " 500 " /var/log/nginx/access.log | wc -l
-
+```

@@ -444,7 +444,7 @@ dotnet add package Serilog.Sinks.File
 
 ```csharp
 // Program.cs
-UseSerilog((context, services, cfg) => cfg
+builder.Host.UseSerilog((context, services, cfg) => cfg
     .WriteTo.Console()
     .WriteTo.File("logs/myapp-.txt", rollingInterval: RollingInterval.Day));
 ```
@@ -471,6 +471,6 @@ ASP.NET 8 在 Linux 上的部署现在已经非常成熟和稳定，适合生产
 
 ---
 
-**发布日期**: 2024 年
+**发布日期**: 2026 年 5 月
 **标签**: ASP.NET, .NET 8, Linux, 部署，Web 开发
 **类别**: 技术教程
