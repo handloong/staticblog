@@ -1,5 +1,6 @@
 ---
 title: "Docker 入门基础教程"
+slug: "docker-beginner-tutorial"
 date: 2026-05-19
 tags: ["docker", "容器化", "devops", "入门"]
 categories: ["技术教程", "DevOps"]
