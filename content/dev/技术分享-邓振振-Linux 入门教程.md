@@ -4,7 +4,7 @@ title: Linux 入门教程 - 从零基础到精通
 date: 2026-05-19
 description: 全面详解 Linux 操作系统基础知识，包括安装、常用命令、文件管理、权限控制、软件包管理、Shell 脚本编程等，适合 Linux 初学者
 tags: [Linux, 教程，入门，操作系统]
-categories: [Linux, 教程]
+categories: [Dev, 技术分享, Linux, 教程]
 author: BU22 技术团队
 ---
 

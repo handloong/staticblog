@@ -3,7 +3,7 @@ title: "Docker 入门基础教程"
 slug: "docker-beginner-tutorial"
 date: 2026-05-19
 tags: ["docker", "容器化", "devops", "入门"]
-categories: ["技术教程", "DevOps"]
+categories: ["Dev", "技术分享", "技术教程", "DevOps"]
 description: "Docker 入门基础教程，涵盖 Docker 核心概念、安装配置、常用命令、镜像和容器管理、Dockerfile 编写等内容，帮助初学者快速掌握 Docker 使用"
 ---
 

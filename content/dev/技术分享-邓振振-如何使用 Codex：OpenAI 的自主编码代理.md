@@ -5,7 +5,7 @@ date: 2026-05-29
 draft: false
 description: "全面介绍 OpenAI Codex CLI 的使用方法，从基础设置到高级技巧，帮你提高开发效率"
 tags: ["codex", "ai", "coding", "automation", "openai"]
-categories: ["开发工具", "AI 编程"]
+categories: ["Dev", "技术分享", "开发工具", "AI 编程"]
 ---
 
 ## 什么是 Codex？

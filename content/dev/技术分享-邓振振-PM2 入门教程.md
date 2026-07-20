@@ -4,7 +4,7 @@ title: "PM2 入门教程"
 date: 2026-05-19
 draft: false
 tags: ["pm2", "nodejs", "deployment", "devops"]
-categories: ["开发工具", "部署"]
+categories: ["Dev", "技术分享", "开发工具", "部署"]
 description: "PM2 是一个生产级 Node.js 进程管理器，本教程介绍 PM2 的常用命令和部署方法"
 ---
 

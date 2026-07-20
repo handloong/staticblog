@@ -4,7 +4,7 @@ title: "ASP.NET 8 在 Linux 下的部署完全指南"
 date: 2026-05-20
 draft: false
 tags: ["aspnet", "dotnet8", "linux", "部署", "web 开发"]
-categories: ["技术教程", "后端开发"]
+categories: ["Dev", "技术分享", "技术教程", "后端开发"]
 description: "全面详解 ASP.NET 8 在 Linux 环境下的部署流程，涵盖 SDK 安装、项目发布、Nginx 反向代理、systemd 服务配置、性能优化及常见问题解决"
 author: "BU22 技术团队"
 ---

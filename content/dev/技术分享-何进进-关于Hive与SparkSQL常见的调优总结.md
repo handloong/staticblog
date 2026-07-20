@@ -7,7 +7,6 @@ slug: hive-spark-sql-tuning-summary
 categories:
     - Dev
     - 技术分享
-    - 大数据
 tags:
     - hive
     - sparksql

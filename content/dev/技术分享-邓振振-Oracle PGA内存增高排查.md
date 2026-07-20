@@ -6,6 +6,7 @@ toc: true
 slug: oracle-pga-memory-investigation
 categories:
     - Dev
+    - 技术分享
     - 故障排查
 tags:
     - oracle
